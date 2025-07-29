@@ -1,0 +1,83 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=67.0", "setuptools_scm[toml]>=7.1"]
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools.package-data]
+ali_backend = ["py.typed"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0-dev"
+write_to = "ali_backend/_version.py"
+
+[project]
+authors = [{"name" = "darir ali"}]
+description = ""
+dynamic = ["version"]
+license = {"file" = "LICENSE"}
+name = "ali_backend"
+readme = {file = "README.md", content-type = "text/markdown"}
+
+dependencies = [
+  "aiosqlite",
+  "alembic",
+  "asyncpg",
+  "celery",
+  "dogpile.cache",
+  "fastapi",
+  "jinja2",
+  "psycopg2-binary",
+  "pydantic~=2.0",
+  "pydantic-settings",
+  "QuasiQueue",
+  "SQLAlchemy",
+  "redis",
+  "typer",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "dapperdata",
+  "glom",
+  "mypy",
+  "paracelsus",
+  "pytest",
+  "pytest-asyncio",
+  "pytest-cov",
+  "pytest-pretty",
+  "ruamel.yaml",
+  "ruff",
+  "toml-sort",
+  "uv",
+  "pydantic-settings"
+
+]
+
+
+[project.scripts]
+ali_backend = "ali_backend.cli:app"
+
+
+[tool.ruff]
+exclude = [".venv", "./ali_backend/_version.py"]
+line-length = 120
+
+[tool.coverage.run]
+omit = [
+  "./ali_backend/_version.py",
+  "./ali_backend/__init__.py",
+  "./tests/*",
+]
+concurrency = ["thread", "greenlet"]
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
